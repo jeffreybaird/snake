@@ -1,0 +1,66 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Color = Elm.Color.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Random = Elm.Random.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Time = Elm.Time.make(_elm);
+   var _op = {};
+   var delta = $Time.fps(9);
+   var initSeed = $Random.initialSeed(12345123);
+   var rows = 25.0;
+   var height = function (snake) {    return snake.height * rows;};
+   var columns = 50.0;
+   var width = function (snake) {    return snake.width * columns;};
+   var toCoord = function (snake) {
+      return {ctor: "_Tuple2",_0: snake.width / 2 + (snake.headX - columns / 2) * snake.width,_1: snake.width / 2 + (snake.headY - rows / 2) * snake.width};
+   };
+   var displaySnake = function (snake) {
+      var style = {color: $Color.white,width: snake.width,cap: $Graphics$Collage.Flat,join: $Graphics$Collage.Sharp(10),dashOffset: 0,dashing: _U.list([])};
+      return A2($Graphics$Collage.traced,style,$Graphics$Collage.path(A2($List.map,toCoord,_U.list([snake]))));
+   };
+   var display = function (_p0) {
+      var _p1 = _p0;
+      var _p3 = _p1._0;
+      var _p2 = _p1._1;
+      return A4($Graphics$Element.container,
+      _p3,
+      _p2,
+      $Graphics$Element.middle,
+      A3($Graphics$Collage.collage,_p3,_p2,_U.list([displaySnake({headX: 10.0,headY: 10.0,width: 10.0,height: 10.0})])));
+   };
+   var main = display({ctor: "_Tuple2",_0: 100,_1: 100});
+   var Input = F2(function (a,b) {    return {direction: a,delta: b};});
+   var Snake = F4(function (a,b,c,d) {    return {headX: a,headY: b,width: c,height: d};});
+   var Right = {ctor: "Right"};
+   var Left = {ctor: "Left"};
+   var Down = {ctor: "Down"};
+   var Up = {ctor: "Up"};
+   return _elm.Main.values = {_op: _op
+                             ,Up: Up
+                             ,Down: Down
+                             ,Left: Left
+                             ,Right: Right
+                             ,Snake: Snake
+                             ,Input: Input
+                             ,columns: columns
+                             ,rows: rows
+                             ,initSeed: initSeed
+                             ,width: width
+                             ,height: height
+                             ,toCoord: toCoord
+                             ,displaySnake: displaySnake
+                             ,delta: delta
+                             ,display: display
+                             ,main: main};
+};
